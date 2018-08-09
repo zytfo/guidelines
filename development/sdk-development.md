@@ -76,14 +76,6 @@ Check the [Http implementations](https://github.com/nemtech/nem2-sdk-java/blob/m
 
 :warning: The **repositories returns Models instead of DTOs**, you will need to do the [Models](#models) before finish the API wrapper.
 
-### Transaction Serialization
-
-TODO
-
-### KeyPair and Cryptographic functions
-
-TODO
-
 ### Models
 
 [Java models example](https://github.com/nemtech/nem2-sdk-java/tree/master/src/main/java/io/nem/sdk/model).
@@ -95,6 +87,14 @@ Strange things to consider:
 - `uint64` support: meanwhile [Java supports big numbers](https://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html), for example JavaScript doesn't. So, JavaScript SDK has a custom class to handle the [`uint64` types](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/model/UInt64.ts). If your language supports `uint64` just use that implementation, in case your language doesn't support it, consider adapt the `UInt64.ts` implementation to your language.
 - API conversions: The API returns the data sometimes compressed, you might need to convert that types for the user.
 - [Mosaics](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/mosaic/MosaicId.java) & [Namespaces](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/namespace/NamespaceId.java) IDs: The Namespaces and Mosaics aren't strings any more compared to NEM1. As you can see in the class, the `string` name is optional. Since at creation time you add the string name, but when you receive the Namespace/Mosaic from network it comes in form of `uint64` ID. A specific endpoint returns the Namespace/Mosaic `string` name. We did a Service to return the Mosaic with the `string` name automatically for the user, check the implementation [here](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/service/MosaicService.ts) (just available in TypeScript SDK version).
+
+### Transaction Serialization
+
+TODO
+
+### KeyPair and Cryptographic functions
+
+TODO
 
 ## Pushing the code for review
 
