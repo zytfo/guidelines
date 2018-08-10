@@ -28,5 +28,5 @@ In case you want to collaborate in SDK creation, check the [SDK Development guid
 
 :warning: The following repositories **have not been tested** by the community, they are under development and might be unstable.
 
-| Name                  | URL                       | Description               | Active Developers |
-| --------------------- | ------------------------- | ------------------------- | ----------------- |
+| Name                  | URL                       | Description               | Active Developers | Active Testers    |
+| --------------------- | ------------------------- | ------------------------- | ----------------- | ----------------- |

@@ -90,7 +90,55 @@ Strange things to consider:
 
 ### Transaction Serialization
 
-TODO
+:warning: The Transaction Serialization will change when [catbuffer][catbuffer] tool is finished. Meanwhile, we will use [flatbuffers][flatbuffers].
+
+A Transaction needs a particular serialization schema in binary optimized in size. Because of it, the transaction serialization has multiple steps to keep easy to create transactions and maintain the schema serialization.
+
+#### Generating the buffer classes (the easy part)
+
+1. Install the [flatbuffers tool][https://github.com/google/flatbuffers/releases], you might need to compile it. Use version 1.7.1 or newer.
+2. [Compile the schema for your language](https://google.github.io/flatbuffers/flatbuffers_guide_using_schema_compiler.html). [Download the flatbuffers files here][flatbuffers-files].
+3. Move the generated files to your `model/transaction` SDK folder. [Example](https://github.com/nemtech/nem2-sdk-java/tree/master/src/main/java/io/nem/sdk/model/transaction).
+
+#### Creating the Schema class (the difficult part)
+
+4. Create the [Schema class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/Schema.java).
+5. Create the [SchemaAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SchemaAttribute.java).
+6. Create the [ScalarAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/ScalarAttribute.java).
+7. Create the [ArrayAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/ArrayAttribute.java).
+8. Create the [TableAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/TableAttribute.java).
+9. Create the [TableArrayAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/TableArrayAttribute.java).
+10. [Constants class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/Constants.java).
+
+#### Creating the Transaction Schemas
+
+Each transaction has an Schema, it has the same type as `flatbuffer schemas` but using the `Schema` class. It's used to know where each component is located in the `flatbuffer schema` and remove the unnecessary bytes to create the optimized serialization.
+
+11. [AggregateTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/AggregateTransactionSchema.java).
+12. [LockFundsTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/LockFundsTransactionSchema.java).
+13. [ModifyMultisigAccountTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/ModifyMultisigAccountTransactionSchema.java).
+14. [MosaicDefinitionTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/MosaicDefinitionTransactionSchema.java).
+15. [MosaicSupplyChangeTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/MosaicSupplyChangeTransactionSchema.java).
+16. [RegisterNamespaceTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/RegisterNamespaceTransactionSchema.java).
+17. [SecretLockTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SecretLockTransactionSchema.java).
+18. [SecretProofTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SecretProofTransactionSchema.java).
+19. [TransferTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/TransferTransactionSchema.java).
+
+#### Using the Schemas in the Transaction Models
+
+The Transaction class has the abstract method [`generateBytes()`](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/Transaction.java#L159). Each Transaction has to implement and use the previous classes, the Buffers and the Schemas, to serialize the transaction.
+
+20. [AggregateTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/AggregateTransaction.java#L97).
+21. [LockFundsTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/LockFundsTransaction.java#L97).
+22. [ModifyMultisigAccountTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/ModifyMultisigAccountTransaction.java).
+23. [MosaicDefinitionTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/MosaicDefinitionTransaction.java).
+24. [MosaicSupplyChangeTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/MosaicSupplyChangeTransaction.java).
+25. [RegisterNamespaceTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/RegisterNamespaceTransaction.java).
+26. [SecretLockTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SecretLockTransaction.java).
+27. [SecretProofTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SecretProofTransaction.java).
+28. [TransferTransaction.generateBytes()](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/TransferTransaction.java).
+
+**Do not forget about Cosignatory classes**, it has to be done too.
 
 ### KeyPair and Cryptographic functions
 
@@ -128,3 +176,6 @@ The current guideline just shows what's done up to today, since the SDK isn't co
 [beta-program]: http://mijin.io/en/catapult
 [slack-invitation]: https://join.slack.com/t/nem2/shared_invite/enQtMzY4MDc2NTg0ODgyLTFhZjgxM2NhYTQ1MTY1Mjk0ZDE2ZTJlYzUxYWYxYmJlYjAyY2EwNGM5NzgxMjM4MGEzMDc5ZDIwYTgzZjgyODM
 [api-def]: https://github.com/nemtech/nem2-docs/blob/master/source/resources/collections/Catapult-REST-API-swagger.json
+[catbuffer]: https://github.com/nemtech/catbuffer
+[flatbuffers]: https://google.github.io/flatbuffers/
+[flatbuffers-files]: https://github.com/nemtech/guidelines/tree/master/development/sdk-development-assets/flatbuffers
