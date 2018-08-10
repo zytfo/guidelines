@@ -96,7 +96,7 @@ A Transaction needs a particular serialization schema in binary optimized in siz
 
 #### Generating the buffer classes (the easy part)
 
-1. Install the [flatbuffers tool][https://github.com/google/flatbuffers/releases], you might need to compile it. Use version 1.7.1 or newer.
+1. Install the [flatbuffers tool](https://github.com/google/flatbuffers/releases), you might need to compile it. Use version 1.7.1 or newer.
 2. [Compile the schema for your language](https://google.github.io/flatbuffers/flatbuffers_guide_using_schema_compiler.html). [Download the flatbuffers files here][flatbuffers-files].
 3. Move the generated files to your `model/transaction` SDK folder. [Example](https://github.com/nemtech/nem2-sdk-java/tree/master/src/main/java/io/nem/sdk/model/transaction).
 
