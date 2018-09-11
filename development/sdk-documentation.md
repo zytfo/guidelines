@@ -1,12 +1,10 @@
 # SDK Documentation
 
-:warning: **status**: draft
-
- SDKs need to be adopted by other developers. As a contributor, no one knows better than you how a determined SDK works. Consider helping others and spread the usage of the SDK by providing the following documentation.
+SDKs need to be adopted by other developers. As a contributor, no one knows better than you how a determined SDK works. Consider helping others and spread the usage of the SDK by providing the following documentation.
 
 ## Readme
 
-Check if your repository has a complete README. Consider adapting the (README.md)[../templates/README_SDK.md] template used by some SDKs.
+Check if your repository has a complete README. Consider adapting the  [README.md](../templates/README_SDK.md) template used by some SDKs.
 
 Required sections:
 
@@ -21,7 +19,7 @@ Document functions and classes with comments while you write your code. A refere
 
 Some examples of reference generators are [tsdoc][tsdoc] for Javascript, whereas in Java we are using Javadoc. Research which is the reference generator most convenient for your language.
 
-If the SDK you are contributing is inspired in nem2-sdk-java or nem2-sdk-javascript-typescript, consider reusing the same comments, adapted to your programming language instead of writing them from scratch.
+If the SDK you are contributing is inspired in nem2-sdk-java or nem2-sdk-javascript-typescript, consider reusing the same comments
 
 ## Guides
 
@@ -33,7 +31,7 @@ Writing snippets helps you to compare how the SDK code looks like in contrast wi
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository) and clone  [nem2-docs repository](https://github.com/nemtech/nem2-docs).
 
-```git clone https://github.com/<YOUR_USERNAME>/nem2-docs.git``
+``git clone https://github.com/<YOUR_USERNAME>/nem2-docs.git``
 
 2. Create a new folder under ``source/resources/examples/`` called <LANGUAGE-NAME>.
 
