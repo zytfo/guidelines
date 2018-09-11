@@ -3,4 +3,5 @@
 ## Development
 
 - [Summary](development/summary.md)
-- [nem2-sdk development guidelines](development/sdk-development.md)
+- [Developing a SDK](development/sdk-development.md)
+- [Documenting a SDK](development/sdk-documentation.md)
