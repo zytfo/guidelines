@@ -10,31 +10,32 @@ The SDKs for NEM2, aka Catapult, have a set of desired properties cross language
 - **Reduce code duplication** of NEM2 Libraries and Applications.
 - **Shared design cross languages** enabling code portability from one platform to another faster and shared knowledge between NEM Developers
 - **Be Lightweight**, focusing on the minimum features required to develop in NEM2.
+ 
+To achieve those properties, we share this guideline to help the NEM Developer Community that wants to collaborate to match the best quality with the less effort in a collaborative way.
 
-In order to accomplish those properties, we share this guideline to help NEM Developer Community that wants to collaborate to match the best quality with the less effort in a collaborative way.
-
-Remember to join our slack! Click [here][slack-invitation] to get an invitation.
-
-## Starting point, being familiar with the current nem2-sdk & API
+## Learning about Catapult
 
 In case you haven't used nem2-sdk or Catapult in general, we encourage you to:
 
-1. Review the technical documentation to become familiar with the concepts at https://nemtech.github.io/ .
-2. Setup the [catapult in local environment via docker][docker] or enroll the [beta program][beta-program] to access a Catapult Test Net without need to run it yourself.
+1. Review the technical documentation to become familiar with the concepts at https://nemtech.github.io/.
+2. Setup the [catapult in local environment via docker][docker] or enroll the [beta program][beta-program] to access a Catapult Test Net without the need to run it yourself.
 3. [Check the API reference][api-ref] and play with the API endpoints.
 4. Become familiar with the current [nem2-sdk via code examples][sdk-guide] & [nem2-cli][cli].
-
-## Architecture
-
-![sdk architecture](sdk-development-assets/sdk-architecture.png)
+5. [Join][slack-invitation] our Slack to ask Catapult related questions.
 
 ## Development
 
-There are two SDKs that can be used as guide, the [TypeScript][sdk-ts] & [Java][sdk-java] SDKs. The TypeScript version is the first SDK getting the latest updated, meanwhile Java takes longer to be updated. Unfortunately, TypeScript version has one specific implementation detail, the low level implementation is separated from the SDK, called [nem2-library-js][library-js]. The reason is due to the need of low level library to perform specific chain testing, **the other SDKs don't need the low level implementation be separated in another component**, so, similar to Java, it's included in the same SDK.
+You can base your work in [TypeScript][sdk-ts] and [Java][sdk-java] SDKs. The TypeScript version is the first SDK getting the latest updates. Meanwhile, Java takes longer to be updated. 
 
-Regularly check the [Changelog](https://github.com/nemtech/nem2-sdk-java/blob/master/CHANGELOG.md) to be sure you didn't miss any code change update.
+![sdk architecture](sdk-development-assets/sdk-architecture.png)
 
-### Before creating the project
+Unfortunately, TypeScript version has one specific implementation detail: the low level implementation is separated from the SDK, called [nem2-library-js][library-js]. There was a need to create this low-level library to perform specific chain testing. 
+
+**The SDKs you create does not require this separate implementation**.
+
+Regularly check the [Changelog (https://github.com/nemtech/nem2-sdk-java/blob/master/CHANGELOG.md) to be sure you didn't miss any code change update.
+
+### Before starting
 
 1. Be sure no one is already working on the SDK you want to create. Check the [repository list](summary.md), if someone is already working on it, we suggest you collaborate with him/her.
 2. Claim the SDK [forking this repository](https://help.github.com/articles/creating-a-pull-request/) and adding a new entry to the [repository list](summary.md).
@@ -42,20 +43,18 @@ Regularly check the [Changelog](https://github.com/nemtech/nem2-sdk-java/blob/ma
 
 ### Creating the project
 
-Consider:
-
-1. Add a README with the instructions to install the SDK.
-2. Add a [Code of Conduct](https://help.github.com/articles/adding-a-code-of-conduct-to-your-project/). [Here](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/CODE_OF_CONDUCT.md) some example.
-3. Add a [Contributors guidelines](https://help.github.com/articles/setting-guidelines-for-repository-contributors/) to help others know how they can help you. [Here](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/CONTRIBUTING.md) some example.
+1. Add a README with the instructions to install the SDK. Find [here](../templates/README_SDK.md) a template.
+2. Add a [Code of Conduct](https://help.github.com/articles/adding-a-code-of-conduct-to-your-project/). Find [here](../templates/CODE_OF_CONDUCT.md) an example.
+3. Add a [Contributors guidelines](https://help.github.com/articles/setting-guidelines-for-repository-contributors/) to help others know how they can help you. Find [here](../templates/CONTRIBUTING.md) an example.
 4. Setup the Continuous Integration system. We use [travis-ci](https://travis-ci.org/), but feel free to use the one suits you best.
 
 A project with a good test coverage it's more likely to be used and trusted by the developers! :smile:
 
-We **strongly** suggest you to do [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) or Unit-Testing (test last). If you need inspiration, you can copy the same [tests we did](https://github.com/nemtech/nem2-sdk-typescript-javascript/tree/master/test).
+We **strongly** suggest you to do [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) or Unit-Testing (test last). If you need inspiration, you can adapt the same [tests we did](https://github.com/nemtech/nem2-sdk-typescript-javascript/tree/master/test).
 
 ### API Wrapper
 
-The API generation can be done with [Swagger Codegen](https://swagger.io/tools/swagger-codegen/). It supports multiple languages, hopefully yours in the list.
+The API generation can be done with [Swagger Codegen](https://swagger.io/tools/swagger-codegen/). It supports multiple languages. Hopefully, yours in the list.
 
 The API swagger file definition can be found [here][api-def].
 
@@ -74,33 +73,35 @@ List of interfaces:
 
 Check the [Http implementations](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/infrastructure/AccountHttp.java) in case you doubt about some API endpoint.
 
-:warning: The **repositories returns Models instead of DTOs**, you will need to do the [Models](#models) before finish the API wrapper.
+:warning: The **repositories return Models instead of DTOs**. You will need to code the [Models](#models) before finish the API wrapper.
 
 ### Models
 
 [Java models example](https://github.com/nemtech/nem2-sdk-java/tree/master/src/main/java/io/nem/sdk/model).
 
-The models are by default immutable, consider use the different tools that your language provides regarding immutability. The models aims to hide the complexity, like type conversion or relationship between objects. You will find in the different implementations different invariants to ensure the object is well constructed and a nicer API is published.
+The models are by default immutable.  The models aim to hide the complexity, like type conversion or relationship between objects.
 
-Strange things to consider:
+ You will find in the different implementations different invariants to ensure the object is well constructed and a nicer API is published.
 
-- `uint64` support: meanwhile [Java supports big numbers](https://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html), for example JavaScript doesn't. So, JavaScript SDK has a custom class to handle the [`uint64` types](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/model/UInt64.ts). If your language supports `uint64` just use that implementation, in case your language doesn't support it, consider adapt the `UInt64.ts` implementation to your language.
+Particular decisions to consider:
+
+- `uint64` support: meanwhile [Java supports big numbers](https://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html), for example JavaScript doesn't. The JavaScript SDK has a custom class to handle the [`uint64` types](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/model/UInt64.ts). If your language supports `uint64` use that implementation. Otherwise, adapt the `UInt64.ts` implementation to your language.
 - API conversions: The API returns the data sometimes compressed, you might need to convert that types for the user.
-- [Mosaics](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/mosaic/MosaicId.java) & [Namespaces](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/namespace/NamespaceId.java) IDs: The Namespaces and Mosaics aren't strings any more compared to NEM1. As you can see in the class, the `string` name is optional. Since at creation time you add the string name, but when you receive the Namespace/Mosaic from network it comes in form of `uint64` ID. A specific endpoint returns the Namespace/Mosaic `string` name. We did a Service to return the Mosaic with the `string` name automatically for the user, check the implementation [here](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/service/MosaicService.ts) (just available in TypeScript SDK version).
+- [Mosaics](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/mosaic/MosaicId.java) & [Namespaces](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/namespace/NamespaceId.java) IDs: The Namespaces and Mosaics aren't strings any more compared to NIS1. As you can see in the class, the `string` name is optional.  At creation time you add the string name, but when you receive the Namespace/Mosaic from the network, it comes in formatted as`uint64` ID. A specific endpoint returns the Namespace/Mosaic `string` name. We did a Service to return the Mosaic with the `string` name automatically for the user, check the implementation [here](https://github.com/nemtech/nem2-sdk-typescript-javascript/blob/master/src/service/MosaicService.ts) (only available in TypeScript SDK version).
 
 ### Transaction Serialization
 
 :warning: The Transaction Serialization will change when [catbuffer][catbuffer] tool is finished. Meanwhile, we will use [flatbuffers][flatbuffers].
 
-A Transaction needs a particular serialization schema in binary optimized in size. Because of it, the transaction serialization has multiple steps to keep easy to create transactions and maintain the schema serialization.
+A Transaction needs a particular serialization schema in binary optimized in size. The transaction serialization has multiple steps to keep easy to create transactions and maintain the schema serialization.
 
-#### Generating the buffer classes (the easy part)
+#### Generating the buffer classes: The easy part
 
 1. Install the [flatbuffers tool](https://github.com/google/flatbuffers/releases), you might need to compile it. Use version 1.7.1 or newer.
 2. [Compile the schema for your language](https://google.github.io/flatbuffers/flatbuffers_guide_using_schema_compiler.html). [Download the flatbuffers files here][flatbuffers-files].
 3. Move the generated files to your `model/transaction` SDK folder. [Example](https://github.com/nemtech/nem2-sdk-java/tree/master/src/main/java/io/nem/sdk/model/transaction).
 
-#### Creating the Schema class (the difficult part)
+#### Creating the Schema class: The difficult part
 
 4. Create the [Schema class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/Schema.java).
 5. Create the [SchemaAttribute class](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/SchemaAttribute.java).
@@ -112,7 +113,7 @@ A Transaction needs a particular serialization schema in binary optimized in siz
 
 #### Creating the Transaction Schemas
 
-Each transaction has an Schema, it has the same type as `flatbuffer schemas` but using the `Schema` class. It's used to know where each component is located in the `flatbuffer schema` and remove the unnecessary bytes to create the optimized serialization.
+Each transaction has a Schema. It has the same type as `flatbuffer schemas` but using the `Schema` class. It's used to know where each component is located in the `flatbuffer schema` and remove the unnecessary bytes to create the optimized serialization.
 
 11. [AggregateTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/AggregateTransactionSchema.java).
 12. [LockFundsTransactionSchema](https://github.com/nemtech/nem2-sdk-java/blob/master/src/main/java/io/nem/sdk/model/transaction/LockFundsTransactionSchema.java).
@@ -144,6 +145,10 @@ The Transaction class has the abstract method [`generateBytes()`](https://github
 
 TODO
 
+## Documenting your SDK
+
+ SDKs need to be adopted by other developers. As a contributor, no one knows better than you how a determined SDK works. Consider helping others and spread the usage of the SDK by providing [the following documentation](sdk-documentation.md).
+
 ## Pushing the code for review
 
 TODO
@@ -154,8 +159,7 @@ TODO
 
 ## Future work
 
-The current guideline just shows what's done up to today, since the SDK isn't complete, it will get updates according the latest architecture/features. If you started the development of an SDK, you will need to update the SDK with the latest updates.
-
+The current guideline shows what is done up to today since the SDK isn't complete. It will get updates according to the latest architecture/features.
 ## Recommended Licenses
 
 - MIT: [Expat/MIT/X11 license](https://opensource.org/licenses/MIT)
@@ -175,7 +179,7 @@ The current guideline just shows what's done up to today, since the SDK isn't co
 [docker]: https://github.com/tech-bureau/catapult-service-bootstrap
 [beta-program]: http://mijin.io/en/catapult
 [slack-invitation]: https://join.slack.com/t/nem2/shared_invite/enQtMzY4MDc2NTg0ODgyLTFhZjgxM2NhYTQ1MTY1Mjk0ZDE2ZTJlYzUxYWYxYmJlYjAyY2EwNGM5NzgxMjM4MGEzMDc5ZDIwYTgzZjgyODM
-[api-def]: https://github.com/nemtech/nem2-docs/blob/master/source/resources/collections/Catapult-REST-API-swagger.json
+[api-def]: https://github.com/nemtech/nem2-docs/blob/master/source/resources/collections/swagger.yaml
 [catbuffer]: https://github.com/nemtech/catbuffer
 [flatbuffers]: https://google.github.io/flatbuffers/
 [flatbuffers-files]: https://github.com/nemtech/guidelines/tree/master/development/sdk-development-assets/flatbuffers
