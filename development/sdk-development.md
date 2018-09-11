@@ -33,7 +33,7 @@ Unfortunately, TypeScript version has one specific implementation detail: the lo
 
 **The SDKs you create does not require this separate implementation**.
 
-Regularly check the [Changelog (https://github.com/nemtech/nem2-sdk-java/blob/master/CHANGELOG.md) to be sure you didn't miss any code change update.
+Regularly check the [Changelog](https://github.com/nemtech/nem2-sdk-java/blob/master/CHANGELOG.md) to be sure you didn't miss any code change update.
 
 ### Before starting
 
