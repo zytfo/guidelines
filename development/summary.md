@@ -21,7 +21,7 @@ In case you want to collaborate in SDK creation, check the [SDK Development guid
 | Swift SDK             | -                         | nem2-sdk for Swift        | -                 |
 | PHP SDK               | -                         | nem2-sdk for PHP          | -                 |
 | C++ SDK               | -                         | nem2-sdk for C++          | -                 |
-| Python SDK            | -                         | nem2-sdk for Python       | -                 |
+| Python SDK            | https://github.com/zytfo/nem2-sdk-python                         | nem2-sdk for Python       | zytfo                 |
 | Ruby SDK              | -                         | nem2-sdk for Ruby         | -                 |
 
 ## Ongoing work
